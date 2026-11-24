@@ -1,0 +1,51 @@
+# Verification ledger
+
+## Local checks
+
+Verified November 23, 2026 (Node 24.21.0, Windows):
+
+- `npm run build`: passed after removing an invalid CSS import.
+- `npm run type-check`: passed after enabling TypeScript relative-import rewriting and Node types for rule tests.
+- `npm test`: 13 tests passed, including all authored maps and independent exhaustive path enumeration.
+- `npm run validate:puzzles`: all 14 scheduled maps plus original-map regression valid; coverage December 7–20 UTC.
+- `npm run lint`: passed after fixing the starter's Windows quoting issue and marking Node test registration promises explicitly.
+- `npm run test:browser`: **8 passed** in Chromium 159. All 14 maps won using rendered controls; mobile loss/retry/undo/win/share/refresh; practice; keyboard-only completion and focus; all maps at 320/390/1280px in light/dark with reduced-motion preference; no horizontal overflow or overlapping stop hitboxes; mocked API failure recovery, save order, expired saves and unavailable storage; midnight keeps old session and opens a clean new day.
+- Screenshots reviewed: 320px light, 390px dark and 1280px desktop. Files generated under `test-results/`.
+- Initial keyboard test incorrectly waited for `:focus` while focus was between the page and browser chrome. Fixed the test's inspection (using `document.activeElement`), then the complete browser suite passed. This was a test harness issue, not a claimed game fix.
+- `npm audit --omit=dev`: **0 vulnerabilities** after moving the CLI to devDependencies per official guidance. The full installation still reports 14 advisories in development tooling; do not force-upgrade Devvit across major versions to silence them.
+
+Browser API responses are mocked for error/save/rollover cases. These results do not verify real Devvit services.
+
+### Polish follow-up
+
+After adding the original matatu mark, move punches, route history, traveled lines and score receipt:
+
+- Build, type checks and lint passed.
+- All 8 browser tests passed again, including every map and both color schemes.
+- Added checks for automatic result focus, the shortest-route stamp, successful clipboard copying and the blocked-clipboard fallback.
+- Visually reviewed the 390px dark map and the mobile result receipt. `test-results/result-mobile.png` is a local UI capture, not a Reddit deployment screenshot.
+- The 13 rule tests remain applicable; the rules, solver and schedule were unchanged by this polish pass.
+
+## Real Reddit — NOT VERIFIED
+
+- [ ] App registered and uploaded
+- [ ] Public test subreddit selected and member count checked
+- [ ] App installed
+- [ ] Interactive Post created and public permalink recorded
+- [ ] Inline launch → expanded game
+- [ ] Authenticated context and server UTC date
+- [ ] Redis persistence after refresh/update
+- [ ] Guest/no-account flow where supported by Reddit
+- [ ] `navigateTo` opens this post's discussion on mobile/desktop
+- [ ] Reddit light/dark settings (OS preference emulation is not enough)
+- [ ] Independent account outside development team opens and completes game
+- [ ] Five first-time mobile playtests
+
+Blocker: `npx devvit whoami` returned “Not currently logged in. Try devvit login first.”
+The login flow has been launched and needs the owner's browser authorization. App slug and public subreddit are awaiting owner confirmation.
+
+Rechecked November 24: the CLI still reports no authenticated account. No upload, installation or public action was performed.
+
+## Honest acceptance threshold
+
+“Someone can open the public Reddit post and play without my help” remains **unmet until the live post and independent-account check above pass**. A successful local build, API mock or screenshot does not satisfy this.

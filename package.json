@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "<% name %>",
+  "name": "one-stop-left",
   "version": "0.0.0",
   "license": "BSD-3-Clause",
   "type": "module",
@@ -8,32 +8,38 @@
     "build": "vite build",
     "deploy": "npm run test:types && npm run lint && devvit upload",
     "dev": "devvit playtest",
-    "launch": "npm run deploy && devvit publish",
-    "lint": "eslint 'src/**/*.{ts,tsx}'",
+    "preview:local": "vite --config vite.local.config.ts --host 127.0.0.1",
+    "type-check": "tsc --build",
+    "test": "npm run test:unit",
+    "test:browser": "playwright test",
+    "verify": "npm run type-check && npm run lint && npm test && npm run validate:puzzles && npm run test:browser && npm run build",
+    "validate:puzzles": "node --experimental-strip-types scripts/validate.ts",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "login": "devvit login",
     "prettier": "prettier --write .",
     "test:types": "tsc --build",
     "test:unit": "node --experimental-strip-types --no-warnings=ExperimentalWarning --test \"src/**/*.test.ts\""
   },
   "engines": {
-    "node": ">=24.0.0"
+    "node": ">=24.18.0"
   },
   "dependencies": {
     "@devvit/start": "0.15.4",
     "@devvit/web": "0.15.4",
     "@hono/node-server": "2.1.6",
-    "devvit": "0.15.4",
     "hono": "4.13.17",
     "react": "19.3.1",
     "react-dom": "19.3.1"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
+    "@playwright/test": "1.65.1",
     "@tailwindcss/vite": "4.3.5",
     "@types/node": "^24.13.3",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@vitejs/plugin-react": "6.3.0",
+    "devvit": "0.15.4",
     "eslint": "10.14.0",
     "eslint-plugin-react-hooks": "7.1.1",
     "eslint-plugin-react-refresh": "0.5.7",

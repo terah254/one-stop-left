@@ -1,93 +1,57 @@
 import { Hono } from 'hono';
-import { context, redis, reddit } from '@devvit/web/server';
-import type {
-  DecrementResponse,
-  IncrementResponse,
-  InitResponse,
-} from '../../shared/api';
-
-type ErrorResponse = {
-  status: 'error';
-  message: string;
-};
+import { context, redis } from '@devvit/web/server';
+import { utcDate, restore } from '../../shared/game';
+import { scheduled } from '../../shared/puzzles';
 
 export const api = new Hono();
-
 api.get('/init', async (c) => {
-  const { postId } = context;
-
-  if (!postId) {
-    console.error('API Init Error: postId not found in devvit context');
-    return c.json<ErrorResponse>(
-      {
-        status: 'error',
-        message: 'postId is required but missing from context',
-      },
-      400
-    );
-  }
-
-  try {
-    const [count, username] = await Promise.all([
-      redis.get('count'),
-      reddit.getCurrentUsername(),
-    ]);
-
-    return c.json<InitResponse>({
-      type: 'init',
-      postId: postId,
-      count: count ? parseInt(count) : 0,
-      username: username ?? 'anonymous',
-    });
-  } catch (error) {
-    console.error(`API Init Error for post ${postId}:`, error);
-    let errorMessage = 'Unknown error during initialization';
-    if (error instanceof Error) {
-      errorMessage = `Initialization failed: ${error.message}`;
+  if (!context.postId)
+    return c.json({ error: 'Open this game from its Reddit post.' }, 400);
+  const date = utcDate();
+  let route: unknown;
+  let storageError = false;
+  if (context.userId) {
+    try {
+      const saved = await redis.get(`route:v1:${context.userId}:${date}`);
+      route = saved ? JSON.parse(saved) : undefined;
+    } catch {
+      storageError = true;
     }
-    return c.json<ErrorResponse>(
-      { status: 'error', message: errorMessage },
-      400
-    );
   }
-});
-
-api.post('/increment', async (c) => {
-  const { postId } = context;
-  if (!postId) {
-    return c.json<ErrorResponse>(
-      {
-        status: 'error',
-        message: 'postId is required',
-      },
-      400
-    );
-  }
-
-  const count = await redis.incrBy('count', 1);
-  return c.json<IncrementResponse>({
-    count,
-    postId,
-    type: 'increment',
+  return c.json({
+    date,
+    route,
+    storageError,
+    canSave: Boolean(context.userId),
+    player: context.userId ?? 'guest',
+    thread: `https://www.reddit.com/comments/${context.postId.replace('t3_', '')}/`,
   });
 });
-
-api.post('/decrement', async (c) => {
-  const { postId } = context;
-  if (!postId) {
-    return c.json<ErrorResponse>(
-      {
-        status: 'error',
-        message: 'postId is required',
-      },
-      400
-    );
+api.post('/progress', async (c) => {
+  if (!context.userId)
+    return c.json({ error: 'Guest progress stays on this device.' }, 401);
+  const body: unknown = await c.req.json();
+  if (
+    !body ||
+    typeof body !== 'object' ||
+    !('date' in body) ||
+    typeof body.date !== 'string' ||
+    !('route' in body)
+  ) {
+    return c.json({ error: 'Invalid progress' }, 400);
   }
-
-  const count = await redis.incrBy('count', -1);
-  return c.json<DecrementResponse>({
-    count,
-    postId,
-    type: 'decrement',
-  });
+  const age = Date.now() - Date.parse(`${body.date}T00:00:00Z`);
+  if (!Number.isFinite(age) || age < 0 || age > 172800000)
+    return c.json({ error: 'Session expired. Open today’s puzzle.' }, 410);
+  const p = scheduled(body.date);
+  if (!p || !restore(p, body.route))
+    return c.json({ error: 'Invalid route' }, 400);
+  await redis.set(
+    `route:v1:${context.userId}:${body.date}`,
+    JSON.stringify(body.route),
+    {
+      expiration: new Date(Date.now() + 7 * 86400000),
+    }
+  );
+  return c.json({ ok: true });
 });
