@@ -18,16 +18,17 @@ The punched ride ticket tracks each move. Traveled connections and an expandable
 
 ## Deployment status
 
-**Not yet verified on Reddit.** The CLI is installed, but `npx devvit whoami` reports no authenticated account. The app slug `one-stop-left` is provisional until registered.
+Uploaded privately as app **`one-stop-left`** (version **0.0.1**) and installed once to the public test subreddit **r/one_stop_left_dev** (public, 2 members on November 24, 2026). The app has **not** been sent for publishing review.
 
 | Link | Status |
 | --- | --- |
-| Devvit app listing | **Pending upload and slug confirmation** |
-| Public test subreddit | **Pending owner selection; fewer than 200 members** |
-| Exact public playable post | **Pending installation/post creation** |
-| Independent-account access | **Pending real Reddit test** |
+| Source repository | https://github.com/terah254/one-stop-left |
+| Devvit app listing | https://developers.reddit.com/apps/one-stop-left |
+| Public test subreddit | https://www.reddit.com/r/one_stop_left_dev/ |
+| Exact public playable post | https://www.reddit.com/r/one_stop_left_dev/comments/1y49g7g/one_stop_left_three_errands_six_moves_one_matatu/ |
+| Independent-account access | **Pending real Reddit test outside the development account** |
 
-Local functionality is not proof of Reddit integration. See [SUBMISSION.md](SUBMISSION.md), [docs/VERIFICATION.md](docs/VERIFICATION.md), and [docs/PLAYTEST.md](docs/PLAYTEST.md).
+Local functionality is not proof of Reddit integration. Live launch, Redis, mobile/desktop layout and `navigateTo` still need independent verification. See [SUBMISSION.md](SUBMISSION.md), [docs/VERIFICATION.md](docs/VERIFICATION.md), and [docs/PLAYTEST.md](docs/PLAYTEST.md).
 
 ## Setup
 

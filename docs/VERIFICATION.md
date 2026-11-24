@@ -25,13 +25,16 @@ After adding the original matatu mark, move punches, route history, traveled lin
 - Added checks for automatic result focus, the shortest-route stamp, successful clipboard copying and the blocked-clipboard fallback.
 - Visually reviewed the 390px dark map and the mobile result receipt. `test-results/result-mobile.png` is a local UI capture, not a Reddit deployment screenshot.
 - The 13 rule tests remain applicable; the rules, solver and schedule were unchanged by this polish pass.
+- November 24: added a ninth browser regression proving hover/press never moves stop hit targets; all 9 browser tests passed.
 
-## Real Reddit — NOT VERIFIED
+## Real Reddit — PARTIALLY VERIFIED
 
-- [ ] App registered and uploaded
-- [ ] Public test subreddit selected and member count checked
-- [ ] App installed
-- [ ] Interactive Post created and public permalink recorded
+Verified November 24, 2026, as u/Late-Towel-5495:
+
+- [x] App registered and uploaded — slug `one-stop-left`, version 0.0.1, 1 install. https://developers.reddit.com/apps/one-stop-left
+- [x] Public test subreddit selected and member count checked — r/one_stop_left_dev, public, 2 members.
+- [x] App installed — install count 1.
+- [x] Interactive Post created and public permalink recorded — https://www.reddit.com/r/one_stop_left_dev/comments/1y49g7g/one_stop_left_three_errands_six_moves_one_matatu/
 - [ ] Inline launch → expanded game
 - [ ] Authenticated context and server UTC date
 - [ ] Redis persistence after refresh/update
@@ -41,10 +44,7 @@ After adding the original matatu mark, move punches, route history, traveled lin
 - [ ] Independent account outside development team opens and completes game
 - [ ] Five first-time mobile playtests
 
-Blocker: `npx devvit whoami` returned “Not currently logged in. Try devvit login first.”
-The login flow has been launched and needs the owner's browser authorization. App slug and public subreddit are awaiting owner confirmation.
-
-Rechecked November 24: the CLI still reports no authenticated account. No upload, installation or public action was performed.
+The permalink opened as a Reddit post page in the owner's signed-in browser. That is **not** proof that the game is playable from an outside account, and no independent-account or mobile playtest result is claimed. The owner's earlier blocker (`npx devvit whoami` reporting no account) is resolved; the CLI now reports u/Late-Towel-5495.
 
 ## Honest acceptance threshold
 

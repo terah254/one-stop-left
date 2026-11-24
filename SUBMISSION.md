@@ -38,12 +38,12 @@ The original opening graph failed its own intended lesson: the solver found Mark
 
 | Field | Value |
 | --- | --- |
-| Devvit app listing | **PENDING UPLOAD.** Expected form: `https://developers.reddit.com/apps/<registered-app-slug>`; provisional slug is `one-stop-left`, not yet verified. |
-| Public test subreddit | **PENDING OWNER SELECTION AND VISIBILITY CHECK** |
-| Exact public playable Reddit post | **PENDING INSTALLATION / POST CREATION** |
-| Installed version | **PENDING** |
+| Devvit app listing | https://developers.reddit.com/apps/one-stop-left |
+| Public test subreddit | https://www.reddit.com/r/one_stop_left_dev/ — public, 2 members on November 24, 2026 |
+| Exact public playable Reddit post | https://www.reddit.com/r/one_stop_left_dev/comments/1y49g7g/one_stop_left_three_errands_six_moves_one_matatu/ |
+| Installed version | 0.0.1 (1 install) |
 | Independent account verification | **PENDING — account outside the development team** |
-| Optional public source repository | **PENDING — do not use the upstream starter repository as this project's URL** |
+| Optional public source repository | https://github.com/terah254/one-stop-left |
 | Optional public video | **PENDING RECORDING / UPLOAD** |
 
 Do not submit placeholders.
@@ -73,10 +73,10 @@ Public video URL: **[PENDING]**. Rules say video is optional, should be under on
 - [x] Root README describes game, controls and setup.
 - [x] English description and title drafted above.
 - [ ] Confirm personal/team eligibility against official rules; original project, not a port.
-- [ ] Confirm registered app slug and upload installable final version.
-- [ ] Supply actual app listing URL.
-- [ ] Supply actual public subreddit URL and exact playable post URL.
-- [ ] Verify subreddit is public and has fewer than 200 members.
+- [x] Registered slug `one-stop-left`; version 0.0.1 uploaded and installed. Re-upload after playtest fixes.
+- [x] Supply actual app listing URL.
+- [x] Supply actual public subreddit URL and exact playable post URL.
+- [x] Verify subreddit is public and has fewer than 200 members (2 members on November 24, 2026).
 - [ ] Verify a non-team, non-moderator account can open the normal permalink and play without developer help.
 - [ ] Verify mobile Reddit and desktop Reddit, launch, save/refresh and result discussion.
 - [ ] Complete all remaining required fields in the actual Devpost form.
@@ -89,7 +89,7 @@ Public video URL: **[PENDING]**. Rules say video is optional, should be under on
 - [ ] Review `docs/VERIFICATION.md`; resolve remaining live-only checks.
 - [ ] Record/upload the optional 45–55 second demo and replace its link.
 - [ ] Add genuine gameplay screenshots, including a mobile map and result card.
-- [ ] Optionally link this project's public repository after owner publishes it.
+- [x] Public repository linked: https://github.com/terah254/one-stop-left
 - [ ] Verify rights to all final assets and video/audio; retain starter license.
 - [ ] Optional feedback survey, one form per entrant, by the same deadline.
 - [ ] **Do not send the app for publishing review until after the hackathon.**

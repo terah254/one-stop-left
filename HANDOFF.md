@@ -24,13 +24,13 @@ Run:
 npm run verify
 ```
 
-This runs TypeScript, ESLint, 13 rule/solver tests, 14-map validation, 8 Chromium browser scenarios and the production build. `npm audit --omit=dev` also reports zero runtime vulnerabilities.
+This runs TypeScript, ESLint, 13 rule/solver tests, 14-map validation, 9 Chromium browser scenarios and the production build. `npm audit --omit=dev` also reports zero runtime vulnerabilities.
 
 ## Owner actions
 
-1. Register or confirm the Devvit app slug; `one-stop-left` is provisional.
-2. Run `npm run login` and finish Reddit authorization. On November 24, `npx devvit whoami` still reports **Not currently logged in**.
-3. Provide a public test subreddit you moderate with fewer than 200 members.
+1. ~~Register or confirm the Devvit app slug~~ — **done**: `one-stop-left`, version 0.0.1 uploaded and installed.
+2. ~~Run `npm run login`~~ — **done**: authenticated as u/Late-Towel-5495; `npx devvit whoami` succeeds.
+3. ~~Provide a public test subreddit~~ — **done**: r/one_stop_left_dev is public with 2 members.
 4. Follow the upload/install/playtest sequence in `README.md`. Do **not** request app publishing review during the hackathon.
 5. Record the actual app listing, subreddit, exact normal post permalink and installed version in `SUBMISSION.md`.
 6. Verify that permalink with a second Reddit account outside the development team.
