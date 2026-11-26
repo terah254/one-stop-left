@@ -271,7 +271,12 @@ export const App = () => {
                 {p.difficulty}
               </span>
             </div>
-            <div className="moves">
+            <div
+              className="moves"
+              style={{
+                background: `conic-gradient(var(--orange) ${((p.budget - moves(state)) / p.budget) * 360}deg, color-mix(in srgb, var(--line) 28%, transparent) 0deg)`,
+              }}
+            >
               <strong>{p.budget - moves(state)}</strong>
               <span>moves left</span>
             </div>
@@ -430,7 +435,7 @@ export const App = () => {
                     {here && <span className="here-label">YOU</span>}
                     {available && (
                       <span className="available-label" aria-hidden="true">
-                        +
+                        GO
                       </span>
                     )}
                   </button>
@@ -646,8 +651,10 @@ export const App = () => {
   );
 };
 
-createRoot(document.getElementById('root')!).render(
+const root = createRoot(document.getElementById('root')!);
+root.render(
   <StrictMode>
     <App />
   </StrictMode>
 );
+if (import.meta.hot) import.meta.hot.dispose(() => root.unmount());

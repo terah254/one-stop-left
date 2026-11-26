@@ -37,6 +37,15 @@ Verified November 26, 2026:
 - `npm test`: **14 passed**, including exhaustive legal-path enumeration and challenge trap checks.
 - `npm run test:browser`: **9 passed**. All 24 maps were completed through rendered controls and fit without overflow or overlapping stop targets at 320, 390 and 1280 px in light/dark themes.
 
+### Visual refresh follow-up
+
+Verified November 26, 2026:
+
+- Added a circular remaining-moves gauge, clearer `GO` markers, four-color errand cards, animated active routes/stops, ticket notches, a stronger result receipt and a wider desktop game sheet.
+- Confirmed the Expert four-errand layout visually at 390 px and the opening map at 1280 px.
+- Reduced-motion mode disables the new pulses and route animation.
+- Type checks, lint, build, 14 unit/solver tests and all 9 browser tests passed after the refresh.
+
 ## Real Reddit — PARTIALLY VERIFIED
 
 Verified November 24, 2026, as u/Late-Towel-5495:

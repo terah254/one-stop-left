@@ -50,4 +50,6 @@ export const Splash = () => (
     </p>
   </main>
 );
-createRoot(document.getElementById('root')!).render(<Splash />);
+const root = createRoot(document.getElementById('root')!);
+root.render(<Splash />);
+if (import.meta.hot) import.meta.hot.dispose(() => root.unmount());
