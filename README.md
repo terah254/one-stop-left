@@ -1,6 +1,6 @@
 # One Stop Left
 
-**Three errands. Six moves. One matatu map.**
+**Daily errands. Tight moves. One matatu map.**
 
 A small, untimed daily route-planning game inspired by Nairobi's matatu culture. Follow the connections, finish the errands, and compare your move count in the Reddit thread. The maps are fictional, not real transport advice.
 
@@ -8,8 +8,8 @@ A small, untimed daily route-planning game inspired by Nairobi's matatu culture.
 
 1. Start at **Terminus**, marked **YOU**.
 2. Tap a connected stop. **Each connection costs one move**, in either direction. Stops marked **+** are available.
-3. Visit the three **★ errand stops** in any order. They turn **✓** automatically.
-4. Finish within six moves. You do not need to return to Terminus.
+3. Visit every **★ errand stop** in any order. They turn **✓** automatically.
+4. Finish within the displayed move budget. You do not need to return to Terminus.
 5. Undo reverses the last trip, including errand completion. Retry starts the same puzzle again.
 
 No timer. Optional two-errand practice teaches the first tap. A win shows moves used and the shortest possible count. “Compare in the Reddit thread” reveals selectable, spoiler-free result text and a Devvit-powered discussion link. Nothing is posted automatically.
@@ -62,7 +62,8 @@ Open the printed local URL plus `/game.html`. Vite chooses another port if 5173 
 Development-only fixtures:
 
 - `/game.html?date=2026-12-07` — opening puzzle
-- `/game.html?date=2026-12-20` — final authored puzzle
+- `/game.html?date=2026-12-21` — first Hard challenge
+- `/game.html?date=2026-12-30` — final Expert challenge
 - `/game.html?server` — use API responses (for browser-test mocks)
 
 Production builds ignore these fixture parameters. Never use fixture footage as evidence of a functioning Reddit post.
@@ -111,8 +112,9 @@ Read the current [quickstart](https://developers.reddit.com/docs/quickstart), [C
 - One global boundary: **00:00 UTC** (03:00 EAT).
 - The server supplies the initial date. A mounted session keeps that puzzle through midnight; a banner lets the player intentionally open the new day.
 - Refresh opens today's puzzle. Route storage keys include player, date and puzzle identity, so yesterday's completed result cannot become today's result.
-- **14 authored puzzles, no cycling:** December 7–20, 2026 inclusive. Judging ends December 17 at 02:00 UTC, so all 11 UTC dates touched between the internal target and judging end are covered, with three extra days.
-- Before December 7 the opening map is explicitly labelled a pre-launch preview. After December 20 a season-finished message appears, with practice still available. Add fresh puzzles before extending the season; no silent repeats.
+- **24 authored puzzles, no cycling:** December 7–30, 2026 inclusive. The opening 14 maps use the original three-errand, six-move format. The 10-map challenge run adds four errands, exact 7–8 move solutions and Hard/Expert labels.
+- Every challenge has at least one plausible first move that makes the budget impossible, while another opening still has an exact-budget solution. Unit tests verify those traps with the solver.
+- Before December 7 the opening map is explicitly labelled a pre-launch preview. After December 30 a season-finished message appears, with practice still available. Add fresh puzzles before extending the season; no silent repeats.
 - Device storage saves immediately where available. Signed-in players additionally save validated routes in subreddit-scoped Devvit Redis, expiring after seven days. Guest play does not require an app account.
 - Save errors do not stop play. Old sessions can finish locally; cloud writes expire 48 hours after their puzzle's UTC midnight.
 - The local route takes precedence over the cloud copy on the same device. This is refresh protection, not a multi-device synchronization guarantee. App updates change Devvit iframe origins and can clear local storage; Redis is the update-resistant fallback.

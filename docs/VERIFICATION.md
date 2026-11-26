@@ -27,6 +27,16 @@ After adding the original matatu mark, move punches, route history, traveled lin
 - The 13 rule tests remain applicable; the rules, solver and schedule were unchanged by this polish pass.
 - November 24: added a ninth browser regression proving hover/press never moves stop hit targets; all 9 browser tests passed.
 
+### Challenge-run follow-up
+
+Verified November 26, 2026:
+
+- Added 10 original Hard/Expert maps, extending unique daily content to 24 maps through December 30.
+- Every new map has four errands, an exact seven- or eight-move optimum, and at least one first move that cannot finish within budget.
+- `npm run type-check`, `npm run lint`, `npm run build`, and `npm run validate:puzzles` passed.
+- `npm test`: **14 passed**, including exhaustive legal-path enumeration and challenge trap checks.
+- `npm run test:browser`: **9 passed**. All 24 maps were completed through rendered controls and fit without overflow or overlapping stop targets at 320, 390 and 1280 px in light/dark themes.
+
 ## Real Reddit — PARTIALLY VERIFIED
 
 Verified November 24, 2026, as u/Late-Towel-5495:

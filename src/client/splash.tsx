@@ -13,7 +13,7 @@ export const Splash = () => (
       One Stop Left<span>.</span>
     </h1>
     <p>
-      Three errands. Six moves.
+      Daily errands. Tight moves.
       <br />
       One matatu map.
     </p>
@@ -35,7 +35,7 @@ export const Splash = () => (
       </span>
     </div>
     <p>
-      Plan a little. Ride a little.
+      Plan every stop. Ride the shortest route.
       <br />
       Can you get everything done?
     </p>

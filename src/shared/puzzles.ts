@@ -1,4 +1,4 @@
-import type { Puzzle, Stop } from './game.ts';
+import type { Difficulty, Puzzle, Stop } from './game.ts';
 
 const names: Record<string, string> = {
   T: 'Terminus',
@@ -17,12 +17,14 @@ const make = (
   layout: string,
   edges: string,
   errands: string,
-  note: string
+  note: string,
+  options: { budget?: number; difficulty?: Difficulty } = {}
 ): Puzzle => ({
   id,
   title,
+  difficulty: options.difficulty ?? 'Medium',
   start: 'T',
-  budget: 6,
+  budget: options.budget ?? 6,
   note,
   stops: layout.split(' ').map((part) => {
     const [id, x, y] = part.split(':');
@@ -31,6 +33,41 @@ const make = (
   edges: edges.split(' ').map((pair) => [pair[0]!, pair[1]!]),
   errands: errands.split(''),
 });
+
+const challengeLayout = (turns: number): string => {
+  const layout = [
+    ['T', 60, 60],
+    ['J', 180, 60],
+    ['M', 300, 60],
+    ['B', 60, 180],
+    ['D', 180, 180],
+    ['C', 300, 180],
+    ['H', 60, 300],
+    ['P', 180, 300],
+    ['L', 300, 300],
+  ] as const;
+  return layout
+    .map(([id, initialX, initialY]) => {
+      let x: number = initialX;
+      let y: number = initialY;
+      for (let i = 0; i < turns % 4; i++) [x, y] = [360 - y, x];
+      return `${id}:${x}:${y}`;
+    })
+    .join(' ');
+};
+
+const challenge = (
+  id: string,
+  title: string,
+  edges: string,
+  budget: 7 | 8,
+  note: string,
+  turns: number
+) =>
+  make(id, title, challengeLayout(turns), edges, 'MCLP', note, {
+    budget,
+    difficulty: budget === 8 ? 'Expert' : 'Hard',
+  });
 
 // Original supplied map retained as a solver regression, not scheduled.
 export const original = make(
@@ -155,11 +192,92 @@ export const puzzles: Puzzle[] = [
     'MCL',
     'Nine stops: the hillside route looks scenic but the eastern connection is shorter.'
   ),
+  challenge(
+    '015',
+    'Rush-hour fork',
+    'BH CL DC HP JD JM PL TD TJ',
+    7,
+    'The first fork is decisive. The Depot side costs two extra rides, while the Junction route clears the northern errands before crossing south.',
+    1
+  ),
+  challenge(
+    '016',
+    'Bridge toll',
+    'BD BP DH JC JM MC MD PL TB TJ',
+    7,
+    'Bridge looks like progress but spends the only spare transfer. Thread the centre before finishing on the Park–Library edge.',
+    2
+  ),
+  challenge(
+    '017',
+    'No spare seat',
+    'BD DH DL JC JD JM PL TB TD TJ',
+    8,
+    'Four errands and no spare move. Depot is useful later, but choosing it first forces an extra transfer.',
+    3
+  ),
+  challenge(
+    '018',
+    'Hillside switchback',
+    'BD CL DH DL HP JC JD JM TD TJ',
+    8,
+    'The lower errands form a one-way planning problem: visit them in the wrong order and the hill demands a return trip.',
+    0
+  ),
+  challenge(
+    '019',
+    'Platform change',
+    'BP CL DH DL HP JB MC TB TD TJ',
+    7,
+    'Bridge is the productive first ride. Depot is connected, tempting, and two moves too expensive.',
+    1
+  ),
+  challenge(
+    '020',
+    'Double back',
+    'BH CL DH DP JM MC TD TJ',
+    8,
+    'A tiny-looking network with a sharp trap: starting through Junction needs ten rides. Double back through Depot at the right moment.',
+    2
+  ),
+  challenge(
+    '021',
+    'Last bus east',
+    'BD BH CP DL DP JC JD JM TB TJ',
+    7,
+    'Clear the northern pair before taking the Clinic–Park link. Bridge first leaves the final errand out of reach.',
+    3
+  ),
+  challenge(
+    '022',
+    'Clinic loop',
+    'BP CL DC DH HP JM MC TD TJ',
+    8,
+    'The Clinic–Library connection looks like the finish, but entering the loop from Depot adds a ninth ride.',
+    0
+  ),
+  challenge(
+    '023',
+    'Depot decoy',
+    'BD BP DH JB JD MC MD PL TD TJ',
+    8,
+    'Depot is the correct opening, but its first obvious exit is not. The only optimal route crosses Market before returning to the lower line.',
+    1
+  ),
+  challenge(
+    '024',
+    'Final transfer',
+    'BP CL DL HP JM MC TB TD',
+    8,
+    'Two opening choices, one exact route. Depot first needs ten moves; Bridge first links every errand in eight.',
+    2
+  ),
 ];
 
 export const practice: Puzzle = {
   id: 'practice',
   title: 'Your first ride',
+  difficulty: 'Easy',
   start: 'T',
   budget: 3,
   stops: [

@@ -125,9 +125,9 @@ void describe('daily content and solver', () => {
     assert.throws(() => validate({ ...original, budget: 1 }));
     assert.equal(solve({ ...original, edges: [['T', 'M']] }), undefined);
   });
-  void it('has fourteen unique authored edge/errand/start combinations', () => {
-    assert.equal(puzzles.length, 14);
-    assert.equal(new Set(puzzles.map((p) => p.id)).size, 14);
+  void it('has twenty-four unique authored edge/errand/start combinations', () => {
+    assert.equal(puzzles.length, 24);
+    assert.equal(new Set(puzzles.map((p) => p.id)).size, 24);
     assert.equal(
       new Set(
         puzzles.map((p) =>
@@ -138,11 +138,12 @@ void describe('daily content and solver', () => {
           ])
         )
       ).size,
-      14
+      24
     );
-    for (const p of puzzles) {
-      assert.equal(p.errands.length, 3);
-      assert.equal(p.budget, 6);
+    for (const [index, p] of puzzles.entries()) {
+      assert.equal(p.errands.length, index < 14 ? 3 : 4);
+      if (index < 14) assert.equal(p.budget, 6);
+      else assert.ok(p.budget === 7 || p.budget === 8);
       for (const [a, b] of p.edges) {
         const from = p.stops.find((s) => s.id === a)!;
         const to = p.stops.find((s) => s.id === b)!;
@@ -165,15 +166,30 @@ void describe('daily content and solver', () => {
       }
     }
   });
-  void it('covers every UTC day from internal submission through judging, including December 17', () => {
+  void it('makes every challenge exact-budget with a losing first-move trap', () => {
+    for (const p of puzzles.slice(14)) {
+      assert.equal(validate(p), p.budget, p.id);
+      const firstMoveLengths = neighbors(p, p.start).map(
+        (id) => solve(p, id)!.length - 1
+      );
+      assert.ok(firstMoveLengths.some((length) => length === p.budget), p.id);
+      assert.ok(firstMoveLengths.some((length) => length > p.budget), p.id);
+      assert.equal(
+        p.difficulty,
+        p.budget === 8 ? 'Expert' : 'Hard',
+        p.id
+      );
+    }
+  });
+  void it('covers every UTC day from launch through December 30 without repeats', () => {
     const seen = new Set<string>();
-    for (let day = 7; day <= 20; day++) {
+    for (let day = 7; day <= 30; day++) {
       const p = scheduled(`2026-12-${String(day).padStart(2, '0')}`)!;
       assert.ok(p);
       assert.ok(!seen.has(p.id));
       seen.add(p.id);
     }
-    assert.equal(scheduled('2026-12-21'), undefined);
+    assert.equal(scheduled('2026-12-31'), undefined);
     assert.equal(scheduled('2026-11-23')?.id, '001');
   });
   void it('uses UTC, changes identity at midnight, and keeps an already-selected puzzle', () => {

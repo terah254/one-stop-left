@@ -1,7 +1,9 @@
 export type Stop = { id: string; name: string; x: number; y: number };
+export type Difficulty = 'Easy' | 'Medium' | 'Hard' | 'Expert';
 export type Puzzle = {
   id: string;
   title: string;
+  difficulty: Difficulty;
   stops: Stop[];
   edges: [string, string][];
   start: string;
@@ -43,4 +45,4 @@ export const restore = (p: Puzzle, value: unknown): State | undefined => {
 };
 export const utcDate = (date = new Date()) => date.toISOString().slice(0, 10);
 export const shareText = (p: Puzzle, s: State, date: string) =>
-  `One Stop Left #${p.id} · ${date} · ${moves(s)}/${p.budget} moves · All ${p.errands.length} errands done. Can you do it in fewer?`;
+  `One Stop Left #${p.id} · ${date} · ${p.difficulty} · ${moves(s)}/${p.budget} moves · All ${p.errands.length} errands done. Can you do it in fewer?`;

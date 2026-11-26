@@ -1,6 +1,6 @@
 # Puzzle design review — developer spoilers
 
-All maps are original authored graphs with a six-move budget and three errands. Review below is a developer/solver review, **not a human playtest**. The ordering includes breathing-space days rather than monotonically increasing difficulty.
+All maps are original authored graphs. The opening run uses a six-move budget and three errands; the challenge run adds four errands and exact seven- or eight-move budgets. Review below is a developer/solver review, **not a human playtest**. The ordering includes breathing-space days before a deliberately difficult final run.
 
 ## Opening-map correction
 
@@ -33,8 +33,18 @@ The optimal route is Terminus → Junction → Library → Junction → Market �
 | Dec 18 | 012 | Three corners | 5 | Wide perimeter and central spoke; optimal route ends at an outer errand. |
 | Dec 19 | 013 | Bridge market | 6 | Eight-stop network; Bridge links competing eastern/western errand orders. |
 | Dec 20 | 014 | Last connection | 6 | Nine-stop network; reject hillside detour in favor of the eastern Library link. |
+| Dec 21 | 015 | Rush-hour fork | 7/7 | Hard. Depot first costs two extra rides; Junction is the only viable opening. |
+| Dec 22 | 016 | Bridge toll | 7/7 | Hard. Bridge is a one-move opening trap; the centre must be threaded first. |
+| Dec 23 | 017 | No spare seat | 8/8 | Expert. Four errands, repeated Junction transfers and no recovery move. |
+| Dec 24 | 018 | Hillside switchback | 8/8 | Expert. The lower errands impose an order; Depot first adds a move. |
+| Dec 25 | 019 | Platform change | 7/7 | Hard. Bridge is productive while the visually central Depot is a two-move trap. |
+| Dec 26 | 020 | Double back | 8/8 | Expert. The correct route revisits Depot; Junction first needs ten moves. |
+| Dec 27 | 021 | Last bus east | 7/7 | Hard. Clear the northern pair before entering the Clinic–Park link. |
+| Dec 28 | 022 | Clinic loop | 8/8 | Expert. Enter the Clinic loop from the wrong side and the route needs nine. |
+| Dec 29 | 023 | Depot decoy | 8/8 | Expert. Depot is the correct opening, but its obvious first exit is not. |
+| Dec 30 | 024 | Final transfer | 8/8 | Expert. Bridge first wins exactly; Depot first needs ten moves. |
 
-The maps differ in edge topology, required-order decisions, backtracking, terminal branches and route lengths, not merely labels. All retain familiar names for scanability. Every required stop and every optional stop is reachable. No self-loops, duplicate edges or unknown endpoints are allowed.
+The maps differ in edge topology, required-order decisions, backtracking, terminal branches and route lengths, not merely labels. Challenge maps rotate the network layout for visual variety and add a fourth required stop. All retain familiar names for scanability. Every required stop and every optional stop is reachable. No self-loops, duplicate edges or unknown endpoints are allowed.
 
 ## Review process
 
@@ -45,4 +55,4 @@ The maps differ in edge topology, required-order decisions, backtracking, termin
 5. Give five first-time players the public Reddit post. Record hesitation, wrong assumptions and retry intent in `PLAYTEST.md`.
 6. Revalidate after each graph change and update this table, demo route and tests. Do not claim the difficulty curve is player-validated until those sessions occur.
 
-Authored content ends December 20. There is no automatic cycling or runtime generated filler.
+Authored content ends December 30. There is no automatic cycling or runtime generated filler.

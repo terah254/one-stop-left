@@ -29,7 +29,7 @@ Pacific Time in December is PST (UTC−8); Kenya EAT is UTC+3.
 | Judging ends | Dec 16, 18:00 | **Dec 17, 02:00** | **Dec 17, 05:00** |
 | Winners, on or around | Dec 17, 15:00 | Dec 17, 23:00 | Dec 18, 02:00 |
 
-The overview displays December 9 at 05:00 GMT+3, consistent with the rules. Internal submission target: December 7. The daily schedule covers December 7–20 UTC, including the easily missed December 17 UTC judging tail.
+The overview displays December 9 at 05:00 GMT+3, consistent with the rules. Internal submission target: December 7. The daily schedule covers December 7–30 UTC, including the easily missed December 17 UTC judging tail.
 
 ## Formal requirements (rules §4)
 

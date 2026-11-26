@@ -14,11 +14,11 @@ One Stop Left turns the everyday question “Which errand should I do first?” 
 
 ### How to play
 
-Start at Terminus and tap connected stops. Every connection costs one move, in either direction. Visiting Market, Clinic or Library completes that errand automatically. Finish all three within six moves; there is no timer and no need to return to the start. Undo restores the exact previous route and errands. Retry lets you explore another order. Optional practice teaches the first tap on a tiny map.
+Start at Terminus and tap connected stops. Every connection costs one move, in either direction. Visiting a starred stop completes that errand automatically. Finish every errand within the displayed budget; there is no timer and no need to return to the start. Undo restores the exact previous route and errands. Retry lets you explore another order. Optional practice teaches the first tap on a tiny map.
 
 ### A fresh daily route
 
-The game contains fourteen authored puzzles scheduled for December 7–20, 2026. Everyone gets the same map at 00:00 UTC. Maps introduce loops, branch returns, competing approaches and choices about which errand to finish on. An open session retains its original puzzle through midnight. Every map is checked by a shortest-path solver; a win shows your move count alongside the shortest possible count, without revealing a solution during play.
+The game contains twenty-four authored puzzles scheduled for December 7–30, 2026. Everyone gets the same map at 00:00 UTC. The opening run uses three errands and six moves; the final ten Hard/Expert maps add a fourth errand, exact seven- or eight-move routes, and first-move traps. Maps introduce loops, branch returns, competing approaches and choices about which errand to finish on. An open session retains its original puzzle through midnight. Every map is checked by a shortest-path solver; a win shows your move count alongside the shortest possible count, without revealing a solution during play.
 
 ### The Reddit conversation
 

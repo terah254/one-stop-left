@@ -230,7 +230,7 @@ export const App = () => {
       <p className="tagline">
         {isPractice
           ? 'Two errands. Three moves. Try your first ride.'
-          : 'Three errands. Six moves. One matatu map.'}
+          : `${p?.errands.length ?? 3} errands. ${p?.budget ?? 6} moves. One matatu map.`}
       </p>
       <div className="route-board" aria-hidden="true">
         <span>NAIROBI</span>
@@ -265,6 +265,11 @@ export const App = () => {
                   : `${session!.date < SCHEDULE_START ? 'PRE-LAUNCH PREVIEW · ' : ''}#${p.id} · ${session!.date} UTC`}
               </p>
               <h2>{p.title}</h2>
+              <span
+                className={`difficulty difficulty-${p.difficulty.toLowerCase()}`}
+              >
+                {p.difficulty}
+              </span>
             </div>
             <div className="moves">
               <strong>{p.budget - moves(state)}</strong>
@@ -272,7 +277,7 @@ export const App = () => {
             </div>
           </section>
           <div
-            className="move-ticket"
+            className={`move-ticket ${p.budget > 6 ? 'long-ticket' : ''}`}
             aria-label={`${moves(state)} of ${p.budget} moves used`}
           >
             <span className="eyebrow">YOUR RIDE</span>
@@ -318,6 +323,15 @@ export const App = () => {
                     ? 'Start at YOU. Tap a + stop to take your first ride.'
                     : `At ${p.stops.find((s) => s.id === current(state))!.name}. Follow a line to a + stop.`}
           </p>
+          {!isPractice &&
+            moves(state) === 0 &&
+            (p.difficulty === 'Hard' || p.difficulty === 'Expert') && (
+              <p className="challenge-warning">
+                {p.difficulty === 'Expert'
+                  ? 'Expert route · Every move counts. Plan all four errands before your first ride.'
+                  : 'Hard route · The obvious first stop may be a trap.'}
+              </p>
+            )}
           <div className="map-frame">
             <div className="map-chrome" aria-hidden="true">
               <span>MATATU NETWORK</span>
