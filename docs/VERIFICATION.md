@@ -46,6 +46,15 @@ Verified November 26, 2026:
 - Reduced-motion mode disables the new pulses and route animation.
 - Type checks, lint, build, 14 unit/solver tests and all 9 browser tests passed after the refresh.
 
+### Avatar and Exact Route follow-up
+
+Verified November 26, 2026:
+
+- Added an original inline-SVG conductor avatar that transitions between the current and destination stops without intercepting map input.
+- Added optional Exact Route mode: the move budget becomes the BFS minimum, visual `GO` markers and active-line hints are hidden, and the mode locks after the first ride.
+- Keyboard focus reaches the mode control before the map; station buttons retain their full accessible connection descriptions.
+- Type checks, lint, build, 14 unit/solver tests and all 10 browser scenarios passed.
+
 ## Real Reddit — PARTIALLY VERIFIED
 
 Verified November 24, 2026, as u/Late-Towel-5495:

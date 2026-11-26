@@ -14,7 +14,7 @@ One Stop Left turns the everyday question “Which errand should I do first?” 
 
 ### How to play
 
-Start at Terminus and tap connected stops. Every connection costs one move, in either direction. Visiting a starred stop completes that errand automatically. Finish every errand within the displayed budget; there is no timer and no need to return to the start. Undo restores the exact previous route and errands. Retry lets you explore another order. Optional practice teaches the first tap on a tiny map.
+Start at Terminus and tap connected stops while a conductor avatar travels around the map. Every connection costs one move, in either direction. Visiting a starred stop completes that errand automatically. Finish every errand within the displayed budget; there is no timer and no need to return to the start. Undo restores the exact previous route and errands. Retry lets you explore another order. Optional practice teaches the first tap on a tiny map, while Exact Route mode removes spare moves and visual ride hints for experienced players.
 
 ### A fresh daily route
 

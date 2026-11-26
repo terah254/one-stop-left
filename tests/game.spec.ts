@@ -119,6 +119,10 @@ test('keyboard-only route and visible focus', async ({ page }) => {
   await page.goto('/game.html?date=2026-12-07');
   await expect(page.locator('.stop')).toHaveCount(7);
   await page.keyboard.press('Tab');
+  await expect(
+    page.getByRole('button', { name: 'Turn on Exact Route mode' })
+  ).toBeFocused();
+  await page.keyboard.press('Tab');
   await expect(page.locator('.stop').first()).toBeFocused();
   expect(
     await page
@@ -174,6 +178,40 @@ test('hovering and pressing map stops never moves their hit targets', async ({
   await expect(page.locator('[aria-current="location"]')).toHaveAccessibleName(
     /^Market/
   );
+});
+
+test('Exact Route mode tightens the budget and the avatar rides between stops', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/game.html?date=2026-12-08');
+  await expect(page.locator('.moves strong')).toHaveText('6');
+
+  const avatar = page.locator('.player-token');
+  const before = await avatar.boundingBox();
+  expect(before).not.toBeNull();
+
+  const exactMode = page.getByRole('button', {
+    name: 'Turn on Exact Route mode',
+  });
+  await exactMode.click();
+  await expect(page.locator('.moves strong')).toHaveText('4');
+  await expect(
+    page.getByRole('button', { name: 'Turn off Exact Route mode' })
+  ).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.stop.available')).toHaveCount(0);
+  await expect(page.getByText(/shortest budget.*visual ride hints hidden/i)).toBeVisible();
+
+  await page.getByRole('button', { name: /^Market\./ }).click();
+  await expect(page.locator('[aria-current="location"]')).toHaveAccessibleName(
+    /^Market/
+  );
+  await expect(
+    page.getByRole('button', { name: 'Turn off Exact Route mode' })
+  ).toBeDisabled();
+  await expect
+    .poll(async () => (await avatar.boundingBox())?.x)
+    .not.toBe(before!.x);
 });
 
 test('all maps fit mobile and desktop in light, dark and reduced motion', async ({

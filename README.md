@@ -12,7 +12,7 @@ A small, untimed daily route-planning game inspired by Nairobi's matatu culture.
 4. Finish within the displayed move budget. You do not need to return to Terminus.
 5. Undo reverses the last trip, including errand completion. Retry starts the same puzzle again.
 
-No timer. Optional two-errand practice teaches the first tap. A win shows moves used and the shortest possible count. “Compare in the Reddit thread” reveals selectable, spoiler-free result text and a Devvit-powered discussion link. Nothing is posted automatically.
+No timer. Optional two-errand practice teaches the first tap. Your conductor avatar rides between stops so the current position is always visible. Before the first move, **Exact Route mode** can reduce the budget to the solver minimum and hide `GO`/active-line hints. A win shows moves used and the shortest possible count. “Compare in the Reddit thread” reveals selectable, spoiler-free result text and a Devvit-powered discussion link. Nothing is posted automatically.
 
 The punched ride ticket tracks each move. Traveled connections and an expandable **Your route so far** log help you understand detours. Completed rides receive a score receipt with a **Shortest route** stamp when optimal; results receive keyboard focus so they are immediately discoverable on mobile. **Copy result** copies only the spoiler-free message, with selectable text if clipboard access is blocked.
 
@@ -134,6 +134,7 @@ The supplied first graph was checked rather than assumed: **Market-first 5, Junc
 ## Project structure
 
 - `src/client/game.tsx` — daily/practice flow, map, results and device persistence
+- `src/client/components/PlayerAvatar.tsx` — original moving conductor token
 - `src/client/splash.tsx` — lightweight Reddit inline entry; expands to `game`
 - `src/server/routes/api.ts` — server UTC date, player context and validated Redis saves
 - `src/server/core/post.ts` — supported Interactive Post creation

@@ -19,6 +19,7 @@ import type { Puzzle, State } from '../shared/game';
 import { practice, scheduled, SCHEDULE_START } from '../shared/puzzles';
 import { solve } from '../shared/solver';
 import { MatatuMark } from './components/MatatuMark';
+import { PlayerAvatar } from './components/PlayerAvatar';
 
 declare const __LOCAL_PREVIEW__: boolean;
 const local = typeof __LOCAL_PREVIEW__ !== 'undefined' && __LOCAL_PREVIEW__;
@@ -35,6 +36,11 @@ type Session = {
   player: string;
   canSave: boolean;
 };
+const exactPuzzle = (p: Puzzle): Puzzle => ({
+  ...p,
+  budget: solve(p)!.length - 1,
+  difficulty: 'Expert',
+});
 const readSaved = (key: string): unknown => {
   try {
     return JSON.parse(localStorage.getItem(key) ?? 'null');
@@ -53,6 +59,7 @@ export const App = () => {
   const [isPractice, setPractice] = useState(false);
   const [practiceState, setPracticeState] = useState(initial(practice));
   const [sharing, setSharing] = useState(false);
+  const [exactMode, setExactMode] = useState(false);
   const [copyStatus, setCopyStatus] = useState('');
   const [reload, setReload] = useState(0);
   const [today, setToday] = useState(utcDate());
@@ -108,6 +115,7 @@ export const App = () => {
           initial(p);
         if (!controller.signal.aborted) {
           setSession(next);
+          setExactMode(false);
           setError('');
           if (data.storageError)
             setSaving('Cloud save unavailable. Progress stays on this device.');
@@ -125,7 +133,11 @@ export const App = () => {
     return () => controller.abort();
   }, [reload]);
 
-  const p = isPractice ? practice : session?.p;
+  const basePuzzle = isPractice ? practice : session?.p;
+  const p =
+    exactMode && !isPractice && basePuzzle
+      ? exactPuzzle(basePuzzle)
+      : basePuzzle;
   const state = isPractice ? practiceState : session?.state;
   const update = (next: State) => {
     setNotice('');
@@ -298,6 +310,35 @@ export const App = () => {
             </div>
             <span className="fare-caption">1 line = 1 move</span>
           </div>
+          {!isPractice && (
+            <div className={`exact-mode ${exactMode ? 'active' : ''}`}>
+              <div>
+                <strong>Exact Route mode</strong>
+                <span>
+                  {exactMode
+                    ? 'Shortest budget · visual ride hints hidden'
+                    : 'Want a tougher ride? Remove every spare move.'}
+                </span>
+              </div>
+              <button
+                type="button"
+                aria-pressed={exactMode}
+                aria-label={`${exactMode ? 'Turn off' : 'Turn on'} Exact Route mode`}
+                disabled={moves(state) > 0}
+                onClick={() => {
+                  setExactMode((enabled) => !enabled);
+                  update(initial(session!.p));
+                  setNotice(
+                    exactMode
+                      ? 'Exact Route mode off. Standard hints restored.'
+                      : 'Exact Route mode on. Study the lines before you move.'
+                  );
+                }}
+              >
+                {exactMode ? 'ON' : 'OFF'}
+              </button>
+            </div>
+          )}
           <div className="section-label">
             <span>ERRAND MANIFEST</span>
             <span>
@@ -371,7 +412,7 @@ export const App = () => {
                         y1={from.y}
                         x2={to.x}
                         y2={to.y}
-                        className={`line ${traveled ? 'traveled' : ''} ${active && !finished ? 'active' : ''}`}
+                      className={`line ${traveled ? 'traveled' : ''} ${active && !finished && !exactMode ? 'active' : ''}`}
                       />
                       <circle
                         cx={(from.x + to.x) / 2}
@@ -390,6 +431,17 @@ export const App = () => {
                   );
                 })}
               </svg>
+              <div
+                className="player-token"
+                style={{
+                  left: `${p.stops.find((stop) => stop.id === current(state))!.x / 3.6}%`,
+                  top: `${p.stops.find((stop) => stop.id === current(state))!.y / 3.6}%`,
+                }}
+                aria-hidden="true"
+              >
+                <span>YOU</span>
+                <PlayerAvatar />
+              </div>
               {p.stops.map((stop) => {
                 const here = stop.id === current(state);
                 const available =
@@ -406,7 +458,7 @@ export const App = () => {
                 return (
                   <button
                     key={stop.id}
-                    className={`stop ${here ? 'here' : ''} ${available ? 'available' : ''} ${done ? 'visited' : ''}`}
+                    className={`stop ${here ? 'here' : ''} ${available && !exactMode ? 'available' : ''} ${done ? 'visited' : ''}`}
                     style={{
                       left: `${stop.x / 3.6}%`,
                       top: `${stop.y / 3.6}%`,
@@ -427,13 +479,12 @@ export const App = () => {
                           ? '✓'
                           : errand
                             ? '★'
-                            : available
+                            : available && !exactMode
                               ? '+'
                               : '○'}
                     </span>
                     <span className="stop-label">{stop.name}</span>
-                    {here && <span className="here-label">YOU</span>}
-                    {available && (
+                    {available && !exactMode && (
                       <span className="available-label" aria-hidden="true">
                         GO
                       </span>
@@ -449,7 +500,7 @@ export const App = () => {
           </div>
           <p className="legend">
             <span>● You</span>
-            <span>+ Can ride</span>
+            <span>{exactMode ? '○ Study the lines' : '+ Can ride'}</span>
             <span>★ Errand</span>
             <span>✓ Done</span>
           </p>
@@ -457,7 +508,10 @@ export const App = () => {
             Lines only connect at named stops. No need to return home.
           </p>
           <div className="feedback" aria-live="polite" aria-atomic="true">
-            {notice || 'Visit every starred stop within the move budget.'}
+            {notice ||
+              (exactMode
+                ? 'Exact Route mode: no spare moves and no visual ride hints.'
+                : 'Visit every starred stop within the move budget.')}
           </div>
           {(success || lost) && (
             <section

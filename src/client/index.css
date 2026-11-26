@@ -1033,6 +1033,52 @@ h1 {
 .move-ticket::after {
   right: -7px;
 }
+.exact-mode {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 10px 0 2px;
+  padding: 10px 11px;
+  border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--paper-strong) 74%, transparent);
+  box-shadow: 0 2px 0 color-mix(in srgb, var(--ink) 7%, transparent);
+}
+.exact-mode > div {
+  min-width: 0;
+  flex: 1;
+}
+.exact-mode strong,
+.exact-mode span {
+  display: block;
+}
+.exact-mode strong {
+  font-size: 12px;
+}
+.exact-mode span {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.35;
+}
+.exact-mode button {
+  min-height: 34px;
+  min-width: 52px;
+  padding: 6px 10px;
+  border-radius: 99px;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.8px;
+}
+.exact-mode.active {
+  border-color: var(--orange);
+  background: color-mix(in srgb, var(--orange) 9%, var(--paper-strong));
+}
+.exact-mode.active button {
+  border-color: var(--orange);
+  background: var(--orange);
+  color: #fff;
+}
 .punch {
   background: var(--paper-strong);
   transition:
@@ -1140,6 +1186,74 @@ h1 {
   border-radius: 13px;
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 18%, transparent);
   overflow: hidden;
+}
+.player-token {
+  position: absolute;
+  z-index: 5;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition:
+    left 360ms cubic-bezier(0.22, 0.8, 0.28, 1),
+    top 360ms cubic-bezier(0.22, 0.8, 0.28, 1);
+  filter: drop-shadow(0 4px 1px color-mix(in srgb, var(--ink) 25%, transparent));
+}
+.player-token > span {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: calc(100% - 2px);
+  padding: 2px 5px;
+  border: 2px solid var(--paper-strong);
+  border-radius: 5px;
+  background: var(--orange);
+  color: #fff;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: 0.6px;
+  line-height: 1;
+  transform: translateX(-50%);
+}
+.player-avatar {
+  display: block;
+  width: 40px;
+  height: 40px;
+  overflow: visible;
+  animation: avatar-bob 1.5s ease-in-out infinite;
+}
+.avatar-backdrop {
+  fill: var(--lime);
+  stroke: var(--ink);
+  stroke-width: 2.5;
+}
+.avatar-shirt,
+.avatar-cap {
+  fill: var(--green-deep);
+}
+.avatar-face {
+  fill: var(--yellow);
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+.avatar-cap-band,
+.avatar-strap {
+  fill: var(--orange);
+  stroke: var(--orange);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+.avatar-eye {
+  fill: var(--ink);
+}
+.avatar-smile {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+.here .station-icon {
+  color: transparent;
 }
 .line {
   stroke: color-mix(in srgb, var(--blue) 46%, var(--line));
@@ -1272,6 +1386,16 @@ h1 {
 @keyframes route-flow {
   to {
     stroke-dashoffset: -22;
+  }
+}
+
+@keyframes avatar-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-2px) rotate(2deg);
   }
 }
 
